@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>音乐播放器</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+	integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+	crossorigin="anonymous">
+<script
+	src="https://fastly.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"
+	integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+	integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+	crossorigin="anonymous"></script>
+<script>
+	  	var index=0;
+		var songlist=["一路向北-周杰伦.mp3","夜曲-周杰伦.mp3","夜的第七章-周杰伦.mp3","晴天-周杰伦.mp3","青花瓷-周杰伦.mp3","七里香-周杰伦.mp3","蒲公英的约定-周杰伦.mp3","明明就-周杰伦.mp3","花海-周杰伦.mp3","反方向的钟-周杰伦.mp3","发如雪-周杰伦.mp3","彩虹-周杰伦.mp3"];
+	  </script>
+</head>
+<body>
+	<div class="container col-md-6 col-md-offset-3 text-center" style="padding:100px;">
+			<div class="panel panel-primary">
+				<div class="panel-heading">音乐播放器</div>
+				<div class="panel-body" style="margin-top:50px;">
+					<p style="font-size: 25px" id="name">
+						<script type="text/javascript">$("#name").append(songlist[index])</script>
+					</p>
+					<script type="text/javascript">	
+		var path="/music/"+songlist[index];
+		document.write("<video controls='controls' autoplay='autoplay' id='musicPlayer' width='500px' height='100px'><source src="+path+" type='audio/mp3'/>您的浏览器不支持播放音乐！</video>")
+		var musicplayer = document.getElementById('musicPlayer');//自动播放下一首
+		//使用事件监听方式捕捉事件
+		musicplayer.addEventListener("timeupdate",function(){
+		    var timeDisplay;
+			//用秒数来显示当前播放进度
+			console.log(musicplayer.duration,musicplayer.currentTime)
+		    //当读取到视频当前音乐currentTime=音乐长度时播放下一首
+			if(musicplayer.currentTime == musicplayer.duration){
+			        nextSong();
+			}
+		},false);
+		</script>
+					<div class="list-in-line">
+						<button class="btn btn-default glyphicon glyphicon-backward"
+							style="width: 50x; height: 40px; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%;"
+							aria-hidden="true" onclick="lastSong()"></button>
+						<button class="btn btn-default glyphicon glyphicon-forward"
+							style="width: 50x; height: 40px; -moz-border-radius: 50%; -webkit-border-radius: 50%; border-radius: 50%;"
+							aria-hidden="true" onclick="nextSong()"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	<script>
+		function lastSong(){
+			console.log(index);
+			if(index==0){
+				index=songlist.length-1;
+			}
+			else{
+				index--;
+			}
+			path="/music/"+songlist[index];
+			document.getElementById("musicPlayer").src=path;
+			$("#name").empty();
+			$("#name").append(songlist[index]);
+		}
+		
+		function nextSong(){
+			console.log(index);
+			if(index==songlist.length-1){
+				index=0;
+			}	
+			else{
+				index++;
+			}
+			path="/music/"+songlist[index];
+			document.getElementById("musicPlayer").src=path;
+			$("#name").empty();
+			$("#name").append(songlist[index]);
+				}
+	</script>
+</body>
+</html>
